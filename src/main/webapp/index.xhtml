@@ -1,0 +1,159 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="shortcut icon" type="image/png" href="images/amazon-icon.png" />
+    <title>Tra Trademark</title>
+
+
+	<style type="text/css">	
+		.ui-grid-row .ui-grid-col-2, .ui-grid-row .ui-grid-col-10 {
+			padding: 0.5em 0;
+		}
+
+		.ui-orderlist .ui-orderlist-list {
+			height: auto;
+		}
+		
+		.ui-orderlist .ui-grid-row .ui-grid-col-2, .ui-orderlist .ui-grid-row .ui-grid-col-10
+			{
+			padding: 0;
+		}
+	
+		.ui-datatable-odd {
+			background: none repeat scroll 0 0 #F2F5F9;
+		}
+
+	
+		#body-id {
+			width:100%;
+			height: 100%;
+			background: #E3F2FD;
+		}
+		
+		.rowColor {
+			background-color: #FFF9C4 !important;
+            background-image: none !important;
+		}
+		
+	</style>
+</h:head>
+<h:body id="body-id">
+	<h:form id="form-id" style="font: bold 13px tahoma !important;">
+		<p:outputPanel styleClass="all-panel">
+			<div class="ui-g ui-fluid">
+				<div class="ui-g-6 ui-g-nopad">
+		    		<div class="ui-g-12">
+		    		
+			          	<p:panelGrid columns="2" columnClasses="ui-grid-col-10,ui-grid-col-2" layout="grid"
+							styleClass="search-panel" style=" margin-bottom:5px; padding: 5px 0px;">
+					    	<p:inputTextarea rows="1" cols="50" value="#{trademarkBean.valueForSearch}" />
+		
+		                    <p:commandButton value="Tìm kiếm" update="@(.all-panel)" action="#{trademarkBean.findResultForSearch}" />
+		                    
+						</p:panelGrid>
+			          
+					</div>
+		          
+		          
+			          <div class="ui-g-12" >
+			          	
+				          <p:dataTable var="tm" rowIndexVar="row" id="table-trademark-resurl" editable="true" styleClass="gr-tbl"
+							value="#{trademarkBean.listTrademarkResult}" rows="15" paginator="true" rowStyleClass="#{tm.haveTrademark ? 'rowColor' : null}"
+							paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink} " style="font-size: 13px !important;">
+							
+							<p:column headerText="Tên" filterBy="#{tm.name}" sortBy="#{tm.name}" filterMatchMode="contains">
+								<h:outputText value="#{tm.name}" />
+							</p:column>
+							
+							<p:column headerText="Hàng đã tra">
+								<p:outputLabel value="#{tm.good}" />
+							</p:column>
+							
+							<p:column headerText="Nhóm">
+								<p:outputLabel value="#{tm.category}" />
+							</p:column>
+							
+							<p:column headerText="Trạng thái" >
+								<p:outputLabel value="#{tm.status}" /> 
+							</p:column>
+		
+						</p:dataTable>
+	
+			          </div><!-- List CostMaterial -->
+			        </div>
+		        
+		        
+		       		<div class="ui-g-6" >
+		       	
+			       	<p:panel id="management-list" header="QL Danh Sách" style="margin-right:5px;">
+				        <p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-9" layout="grid"
+							styleClass="" style=" margin-bottom:15px; text-align:right; font: bold 12 tahoma !important;">
+						    	<p:outputLabel value="Tên" />
+						    	<p:inputText value="#{trademarkBean.currentTM.name}" />
+						    	
+						    	<p:outputLabel value="Hàng đã tra" />
+						    	<p:inputText value="#{trademarkBean.currentTM.good}" />
+						    	
+						    	<p:outputLabel value="Nhóm" />
+						    	<p:inputText value="#{trademarkBean.currentTM.category}" />
+						    	
+						    	<p:outputLabel value="Trạng thái" />
+						    	<p:selectOneRadio  value="#{trademarkBean.currentTM.status}">
+						            <f:selectItem itemLabel="Đã dính" itemValue="YES" />
+						            <f:selectItem itemLabel="Không dính" itemValue="NO" />
+						        </p:selectOneRadio>
+						    	
+						    	<p:outputLabel />
+						    	<p:commandButton value="Thêm" action="#{trademarkBean.addTM}" update="@(.all-panel)"/>
+							</p:panelGrid>
+						
+							<p:outputPanel styleClass="list-tm" style="margin-top: 15px;">
+								
+								<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" style="text-align:center">
+							        <p:commandButton value="Đồng ý xóa" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							        <p:commandButton value="Hủy xóa" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						    	</p:confirmDialog>
+						    	
+								<p:dataTable var="tm" rowIndexVar="row" rowKey="#{tm.trademarkId}" style="font-size: 13px !important;"
+								value="#{trademarkBean.listAllTrademark}"  rows="15" paginator="true"
+									paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} ">
+											
+				
+									<p:column headerText="Tên" filterBy="#{tm.name}" sortBy="#{tm.name}" filterMatchMode="contains">
+										<h:outputText value="#{tm.name}" />
+									</p:column>
+									
+									<p:column headerText="Hàng đã tra">
+										<h:outputText value="#{tm.good}" />
+									</p:column>
+									
+									<p:column headerText="Nhóm">
+										<h:outputText value="#{tm.category}" />
+									</p:column>
+									
+									<p:column headerText="Trạng thái" style="width:100px;" >
+										<h:outputText value="#{tm.status}" /> 
+									</p:column>
+				
+									<p:column style="width:50px; text-align: center" headerText="Xóa" styleClass="btndelete">
+								         <p:commandButton update="@form, @(.all-panel)" action="#{trademarkBean.deleteTM()}" icon="fa fa-fw fa-remove" 
+								         		style="width:40px !important; height: 25px !important; ">
+								             <f:setPropertyActionListener  value="#{tm}" target="#{trademarkBean.currentTM}" />
+								             <p:confirm header="Xác nhận xóa" message="Bạn chắc chắn muốn xóa #{tm.name}?"/>
+								        </p:commandButton>
+								     </p:column>
+								</p:dataTable>
+							</p:outputPanel>   
+				    </p:panel>
+
+		       </div>
+		         
+		    </div>
+		</p:outputPanel>	
+	</h:form>
+	</h:body>
+</html>
