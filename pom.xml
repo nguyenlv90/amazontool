@@ -31,7 +31,7 @@
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat8-maven-plugin</artifactId>
-				<version>5.31</version>
+				<version>5.11</version>
 				<configuration>
 					<path>/amazon-tool-2.2</path>
 				</configuration>
